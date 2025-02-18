@@ -6,6 +6,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
+
+    // criando nova commit
 public class SistemaGestaoEclusaSwing {
     private Eclusa eclusa;
     private FilaDeEspera filaDeEspera;
@@ -99,8 +101,8 @@ public class SistemaGestaoEclusaSwing {
 
         // Adiciona os botões na barra lateral
         leftPanel.add(createButton("Iniciar Operação da Eclusa", e -> {
-            eclusaController.iniciarOperacao();
             MostrarRegistroEvento("Eclusa iniciando operação...\n");
+            eclusaController.iniciarOperacao();
         }));
 
         leftPanel.add(createButton("Adicionar Embarcação à Fila", e -> {
