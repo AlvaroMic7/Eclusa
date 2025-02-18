@@ -20,9 +20,7 @@ public abstract class Embarcacao {
         this.pago = false;
     }
 
-
     public abstract double calcularTaxa();
-
 
     public String getCodigoIdentificacao() {
         return codigoIdentificacao;
@@ -32,43 +30,35 @@ public abstract class Embarcacao {
         this.pago = true;
     }
 
-
     public boolean isPago() {
         return pago;
     }
-
 
     public void setPago(boolean pago) {
         this.pago = pago;
     }
 
-
     public String getCapitao() {
         return capitao;
     }
-
 
     public String getPortoOrigem() {
         return portoOrigem;
     }
 
-
     public String getPortoDestino() {
         return portoDestino;
     }
-
 
     public String getPais() {
         return pais;
     }
 
-
     public String getSentido() {
         return sentido;
     }
 
-
-    // Adicionando métodos para comprimento e largura
     public abstract double getComprimento();
+
     public abstract double getLargura();
 }

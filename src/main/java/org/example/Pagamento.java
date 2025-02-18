@@ -13,7 +13,7 @@ public class Pagamento {
 
     public boolean registrarPagamento(String codigo, double valor, double taxa) {
         if (valor < taxa) {
-            return false; // Pagamento insuficiente
+            return false;
         }
         troco = valor - taxa;
 
@@ -21,10 +21,8 @@ public class Pagamento {
         totalApuradoMes += taxa;
         totalApuradoAno += taxa;
         paymentRecords.put(codigo, taxa);
-        return true; // Pagamento registrado com sucesso
+        return true;
     }
-
-
 
     public double getTroco() {
         return troco;
@@ -40,5 +38,3 @@ public class Pagamento {
         return totalApuradoAno;
     }
 }
-
-

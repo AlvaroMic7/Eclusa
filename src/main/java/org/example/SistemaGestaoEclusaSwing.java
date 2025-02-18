@@ -6,8 +6,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-
-    public class SistemaGestaoEclusaSwing {
+public class SistemaGestaoEclusaSwing {
     private Eclusa eclusa;
     private FilaDeEspera filaDeEspera;
     private Pagamento pagamento;
@@ -23,17 +22,15 @@ import java.util.List;
     private JTextField valorPagamentoField;
     private JProgressBar progressBar;
 
-    // Paleta de cores inspirada no mockup conceitual
-    private static final Color BACKGROUND_COLOR = new Color(32, 36, 47);  // cor de fundo principal
-    private static final Color PANEL_COLOR = new Color(38, 42, 54);  // cor do painel lateral
-    private static final Color TEXT_AREA_BACKGROUND = new Color(46, 50, 62);  // fundo da área de texto
-    private static final Color TEXT_AREA_FOREGROUND = new Color(220, 220, 220); // texto claro
-    private static final Color BUTTON_COLOR = new Color(54, 59, 73);  // fundo dos botões
-    private static final Color BUTTON_TEXT_COLOR = Color.WHITE;            // cor do texto dos botões
-    private static final Color ACCENT_COLOR = new Color(49, 199, 178);// cor de destaque (teal)
+    private static final Color BACKGROUND_COLOR = new Color(32, 36, 47);
+    private static final Color PANEL_COLOR = new Color(38, 42, 54);
+    private static final Color TEXT_AREA_BACKGROUND = new Color(46, 50, 62);
+    private static final Color TEXT_AREA_FOREGROUND = new Color(220, 220, 220);
+    private static final Color BUTTON_COLOR = new Color(54, 59, 73);
+    private static final Color BUTTON_TEXT_COLOR = Color.WHITE;
+    private static final Color ACCENT_COLOR = new Color(49, 199, 178);
 
     public SistemaGestaoEclusaSwing() {
-        // Inicializa os objetos de domínio
         eclusa = new Eclusa("Grande", 5000, 1000, 100, 10, 150, 20, this);
         filaDeEspera = new FilaDeEspera();
         pagamento = new Pagamento();
@@ -46,7 +43,6 @@ import java.util.List;
     }
 
     private void initialize() {
-        // Tenta definir o Look and Feel Nimbus (opcional)
         setCustomLookAndFeel();
 
         frame = new JFrame("Sistema de Gestão de Eclusa");
@@ -56,12 +52,10 @@ import java.util.List;
         frame.setLayout(new BorderLayout());
         frame.getContentPane().setBackground(BACKGROUND_COLOR);
 
-        // Top Panel: Cabeçalho e barra de progresso (inspirado no mockup)
         JPanel topPanel = new JPanel(new BorderLayout());
         topPanel.setBackground(BACKGROUND_COLOR);
         topPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Cabeçalho com o título do sistema
         JLabel headerLabel = new JLabel("Sistema de Gestão de Eclusa");
         headerLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
         headerLabel.setForeground(TEXT_AREA_FOREGROUND);
@@ -69,7 +63,6 @@ import java.util.List;
         headerLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));
         topPanel.add(headerLabel, BorderLayout.NORTH);
 
-        // Barra de progresso
         progressBar = new JProgressBar(0, 100);
         progressBar.setStringPainted(true);
         progressBar.setValue(0);
@@ -79,14 +72,12 @@ import java.util.List;
         topPanel.add(progressBar, BorderLayout.SOUTH);
         frame.add(topPanel, BorderLayout.NORTH);
 
-        // Lateral Esquerda (barra de botões)
         JPanel leftPanel = new JPanel();
         leftPanel.setBackground(PANEL_COLOR);
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
         leftPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         frame.add(leftPanel, BorderLayout.WEST);
 
-        // Área de saída (centro)
         outputArea = new JTextArea();
         outputArea.setEditable(false);
         outputArea.setFont(new Font("Consolas", Font.PLAIN, 14));
@@ -95,13 +86,12 @@ import java.util.List;
         outputArea.setMargin(new Insets(10, 10, 10, 10));
 
         JScrollPane scrollPane = new JScrollPane(outputArea);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder()); // remove borda
+        scrollPane.setBorder(BorderFactory.createEmptyBorder());
         frame.add(scrollPane, BorderLayout.CENTER);
 
-        // Adiciona os botões na barra lateral
         leftPanel.add(createButton("Iniciar Operação da Eclusa", e -> {
-            MostrarRegistroEvento("Eclusa iniciando operação...\n");
             eclusaController.iniciarOperacao();
+            MostrarRegistroEvento("Eclusa iniciando operação...\n");
         }));
 
         leftPanel.add(createButton("Adicionar Embarcação à Fila", e -> {
@@ -141,7 +131,7 @@ import java.util.List;
             limparTerminal();
         }));
 
-        leftPanel.add(Box.createVerticalStrut(10)); // espaçamento
+        leftPanel.add(Box.createVerticalStrut(10));
 
         leftPanel.add(createButton("Sair", e -> {
             frame.dispose();
@@ -157,7 +147,7 @@ import java.util.List;
         button.setFocusPainted(false);
         button.setFont(new Font("Segoe UI", Font.BOLD, 12));
         button.setBorder(BorderFactory.createEmptyBorder(8, 15, 8, 15));
-        button.setAlignmentX(Component.LEFT_ALIGNMENT); // alinha no BoxLayout
+        button.setAlignmentX(Component.LEFT_ALIGNMENT);
         button.addActionListener(action);
         return button;
     }
@@ -167,7 +157,6 @@ import java.util.List;
             for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
                     UIManager.setLookAndFeel(info.getClassName());
-                    // Ajusta algumas cores do Nimbus para combinar com o tema escuro
                     UIManager.put("control", BACKGROUND_COLOR);
                     UIManager.put("text", TEXT_AREA_FOREGROUND);
                     UIManager.put("nimbusBase", PANEL_COLOR);
@@ -179,7 +168,6 @@ import java.util.List;
                 }
             }
         } catch (Exception e) {
-            // Se der erro ou não achar o Nimbus, segue o padrão
         }
     }
 
@@ -197,12 +185,10 @@ import java.util.List;
         adicionarFrame.setLocationRelativeTo(frame);
         adicionarFrame.setLayout(new GridLayout(0, 2, 10, 10));
 
-        // Painel de fundo escuro para o frame
         JPanel contentPanel = new JPanel(new GridLayout(0, 2, 10, 10));
         contentPanel.setBackground(BACKGROUND_COLOR);
         adicionarFrame.setContentPane(contentPanel);
 
-        // Labels e campos
         JLabel tipoLabel = createLabel("Tipo de Embarcação:");
         contentPanel.add(tipoLabel);
         tipoEmbarcacaoComboBox = new JComboBox<>(new String[]{"Navio de Carga", "Navio de Passageiros", "Iate"});
@@ -258,7 +244,6 @@ import java.util.List;
         passageirosField = createTextField();
         contentPanel.add(passageirosField);
 
-        // Botão de Adicionar
         JButton adicionarButton = createButton("Adicionar", e -> {
             try {
                 String tipo = (String) tipoEmbarcacaoComboBox.getSelectedItem();
@@ -300,7 +285,6 @@ import java.util.List;
             }
         });
 
-        // Adiciona o botão ao final (ocupando 2 colunas)
         contentPanel.add(adicionarButton);
 
         adicionarFrame.setVisible(true);
@@ -312,7 +296,6 @@ import java.util.List;
         pagamentoFrame.setLocationRelativeTo(frame);
         pagamentoFrame.setLayout(new GridLayout(0, 2, 10, 10));
 
-        // Painel de fundo escuro
         JPanel contentPanel = new JPanel(new GridLayout(0, 2, 10, 10));
         contentPanel.setBackground(BACKGROUND_COLOR);
         pagamentoFrame.setContentPane(contentPanel);
@@ -344,7 +327,7 @@ import java.util.List;
                         outputArea.append(">>> Pagamento registrado sem troco.\n");
                     }
                 } else {
-                    outputArea.append(">>> " + resultadoPagamento + "\n"); // Exibe a mensagem de erro
+                    outputArea.append(">>> " + resultadoPagamento + "\n");
                 }
             }
             pagamentoFrame.dispose();
@@ -358,7 +341,7 @@ import java.util.List;
         List<Embarcacao> embarcacoesParaProcessar = new ArrayList<>();
         Embarcacao prox = filaController.obterProximaEmbarcacao();
         while (prox != null) {
-            if (prox.isPago()) { // Verifica se a embarcação está paga
+            if (prox.isPago()) {
                 embarcacoesParaProcessar.add(prox);
                 if (!eclusaController.getEclusa().podeAcomodarEmbarcacoes(embarcacoesParaProcessar)) {
                     embarcacoesParaProcessar.remove(embarcacoesParaProcessar.size() - 1);
@@ -374,12 +357,11 @@ import java.util.List;
 
         if (!embarcacoesParaProcessar.isEmpty()) {
             eclusaController.operarEclusa(embarcacoesParaProcessar, filaController);
-            // Atualiza o progresso durante a operação
             new Thread(() -> {
                 for (int i = 0; i <= 100; i++) {
                     atualizarProgresso(i);
                     try {
-                        Thread.sleep(50); // Simula o tempo de operação
+                        Thread.sleep(50);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }

@@ -5,21 +5,20 @@ import java.util.List;
 
 public class Eclusa {
     private String tamanho;
-    private double capacidadeMaxima; // Capacidade máxima em m³
-    private double capacidadeMinima; // Capacidade mínima em m³
-    private double vazao; // Vazão em m³/min
+    private double capacidadeMaxima;
+    private double capacidadeMinima;
+    private double vazao;
     private String status;
     private double porcentagemOperacao;
     private int tempoOperacao;
     private Comporta comportaJusante;
     private Comporta comportaMontante;
     private SensorNivelAgua sensor;
-    private AlarmeSeguranca alarme;
     private RegistroEventos registro;
     private boolean nivelAlto;
     private double comprimento;
     private double largura;
-    private double tempoDecorrido; // Tempo decorrido em minutos
+    private double tempoDecorrido;
     private SistemaGestaoEclusaSwing sistemaGestaoEclusaSwing;
 
     public Eclusa(String tamanho, double capacidadeMaxima, double capacidadeMinima, double vazao, int tempoOperacao, double comprimento, double largura, SistemaGestaoEclusaSwing sistemaGestaoEclusaSwing) {
@@ -33,7 +32,6 @@ public class Eclusa {
         this.comportaJusante = new Comporta("Jusante");
         this.comportaMontante = new Comporta("Montante");
         this.sensor = new SensorNivelAgua();
-        this.alarme = new AlarmeSeguranca();
         this.registro = new RegistroEventos();
         this.nivelAlto = false;
         this.comprimento = comprimento;
@@ -166,16 +164,16 @@ public class Eclusa {
         sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Comporta Jusante fechada.");
         registro.registrarEvento("Comporta jusante fechada.");
 
-        double tempoTotal = 4.0; // 4 segundos
+        double tempoTotal = 4.0;
         sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Tempo estimado para encher a eclusa: " + tempoTotal + " segundos.");
 
         tempoDecorrido = 0;
         while (tempoDecorrido < tempoTotal) {
             try {
-                Thread.sleep(100); // Simula o tempo de operação
+                Thread.sleep(100);
                 tempoDecorrido += 0.1;
                 int progresso = (int) ((tempoDecorrido / tempoTotal) * 100);
-                atualizarProgresso(progresso); // Atualiza o progresso
+                atualizarProgresso(progresso);
             } catch (InterruptedException e) {
                 sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Operação interrompida.");
                 return;
@@ -187,13 +185,10 @@ public class Eclusa {
         nivelAlto = true;
         sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Eclusa cheia. Elevando as embarcações.");
 
-
-
         comportaMontante.abrir();
         sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Comporta Montante aberta. Embarcações liberadas.");
         registro.registrarEvento("Comporta montante aberta. Embarcações liberadas.");
 
-        // Reinicia a barra de progresso
         atualizarProgresso(0);
     }
 
@@ -205,16 +200,16 @@ public class Eclusa {
         sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Comporta montante fechada.");
         registro.registrarEvento("Comporta montante fechada.");
 
-        double tempoTotal = 4.0; // 4 segundos
+        double tempoTotal = 4.0;
         sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Tempo estimado para esvaziar a eclusa: " + tempoTotal + " segundos.");
 
         tempoDecorrido = 0;
         while (tempoDecorrido < tempoTotal) {
             try {
-                Thread.sleep(100); // Simula o tempo de operação
+                Thread.sleep(100);
                 tempoDecorrido += 0.1;
                 int progresso = (int) ((tempoDecorrido / tempoTotal) * 100);
-                atualizarProgresso(progresso); // Atualiza o progresso
+                atualizarProgresso(progresso);
             } catch (InterruptedException e) {
                 sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Operação interrompida.");
                 return;
@@ -230,7 +225,6 @@ public class Eclusa {
 
         registro.registrarEvento("Comporta jusante aberta. Embarcações liberadas.");
 
-        // Reinicia a barra de progresso
         atualizarProgresso(0);
     }
 

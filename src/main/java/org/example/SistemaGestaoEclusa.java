@@ -11,19 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
-
-// MODELO (Model)
-
-
-// CONTROLADOR (Controller)
-
-
-// VISÃO (View)
-
-
-//MAIN
-
-
 public class SistemaGestaoEclusa {
     public static void main(String[] args) {
         SistemaGestaoEclusaSwing sistema = new SistemaGestaoEclusaSwing();
