@@ -7,8 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-    // criando nova commit
-public class SistemaGestaoEclusaSwing {
+    public class SistemaGestaoEclusaSwing {
     private Eclusa eclusa;
     private FilaDeEspera filaDeEspera;
     private Pagamento pagamento;
