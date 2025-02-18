@@ -90,8 +90,8 @@ public class SistemaGestaoEclusaSwing {
         frame.add(scrollPane, BorderLayout.CENTER);
 
         leftPanel.add(createButton("Iniciar Operação da Eclusa", e -> {
+            MostrarRegistroEvento("Eclusa iniciando operação...");
             eclusaController.iniciarOperacao();
-            MostrarRegistroEvento("Eclusa iniciando operação...\n");
         }));
 
         leftPanel.add(createButton("Adicionar Embarcação à Fila", e -> {
