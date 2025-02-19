@@ -19,18 +19,15 @@ public class RegistrarPagamentoView {
         this.filaController = filaController;
         this.outputArea = outputArea;
 
-        // Configura o frame
         frame = new JFrame("Registrar Pagamento");
         frame.setSize(350, 200);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // Painel principal com BorderLayout e margem
         JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
         mainPanel.setBackground(new Color(38, 42, 54));
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // Painel de formulário com GridLayout para os labels e campos de texto
         JPanel formPanel = new JPanel(new GridLayout(2, 2, 10, 10));
         formPanel.setBackground(new Color(38, 42, 54));
 
@@ -44,7 +41,6 @@ public class RegistrarPagamentoView {
 
         mainPanel.add(formPanel, BorderLayout.CENTER);
 
-        // Painel para o botão, centralizando-o
         JButton pagarButton = createButton("Pagar");
         pagarButton.addActionListener(e -> registrarPagamento());
 
