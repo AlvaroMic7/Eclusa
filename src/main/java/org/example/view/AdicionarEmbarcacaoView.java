@@ -7,9 +7,8 @@ import org.example.model.NavioCarga;
 import org.example.model.NavioPassageiros;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class AdicionarEmbarcacaoView {
     private JFrame frame;
@@ -21,67 +20,129 @@ public class AdicionarEmbarcacaoView {
 
     private static final Color BUTTON_COLOR = new Color(54, 59, 73);
     private static final Color BUTTON_TEXT_COLOR = Color.WHITE;
+    private static final Color BACKGROUND_COLOR = new Color(38, 42, 54);
 
     public AdicionarEmbarcacaoView(FilaDeEsperaController filaController, JTextArea outputArea) {
         this.filaController = filaController;
         this.outputArea = outputArea;
 
         frame = new JFrame("Adicionar Embarcação");
-        frame.setSize(400, 500);
+        frame.setSize(450, 550);
         frame.setLocationRelativeTo(null);
-        frame.setLayout(new GridLayout(0, 2, 10, 10));
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
+        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+        mainPanel.setBackground(BACKGROUND_COLOR);
+        mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
-        panel.add(new JLabel("Tipo de Embarcação:"));
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBackground(BACKGROUND_COLOR);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.weightx = 1.0;
+
+        int row = 0;
+
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        formPanel.add(new JLabel("Tipo de Embarcação:"), gbc);
+        gbc.gridx = 1;
         tipoEmbarcacaoComboBox = new JComboBox<>(new String[]{"Navio de Carga", "Navio de Passageiros", "Iate"});
-        panel.add(tipoEmbarcacaoComboBox);
+        formPanel.add(tipoEmbarcacaoComboBox, gbc);
+        row++;
 
-        panel.add(new JLabel("Código da Embarcação:"));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        formPanel.add(new JLabel("Código da Embarcação:"), gbc);
+        gbc.gridx = 1;
         codigoField = new JTextField();
-        panel.add(codigoField);
+        formPanel.add(codigoField, gbc);
+        row++;
 
-        panel.add(new JLabel("Nome do Capitão:"));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        formPanel.add(new JLabel("Nome do Capitão:"), gbc);
+        gbc.gridx = 1;
         capitaoField = new JTextField();
-        panel.add(capitaoField);
+        formPanel.add(capitaoField, gbc);
+        row++;
 
-        panel.add(new JLabel("Porto de Origem:"));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        formPanel.add(new JLabel("Porto de Origem:"), gbc);
+        gbc.gridx = 1;
         portoOrigemField = new JTextField();
-        panel.add(portoOrigemField);
+        formPanel.add(portoOrigemField, gbc);
+        row++;
 
-        panel.add(new JLabel("Porto de Destino:"));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        formPanel.add(new JLabel("Porto de Destino:"), gbc);
+        gbc.gridx = 1;
         portoDestinoField = new JTextField();
-        panel.add(portoDestinoField);
+        formPanel.add(portoDestinoField, gbc);
+        row++;
 
-        panel.add(new JLabel("País:"));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        formPanel.add(new JLabel("País:"), gbc);
+        gbc.gridx = 1;
         paisField = new JTextField();
-        panel.add(paisField);
+        formPanel.add(paisField, gbc);
+        row++;
 
-        panel.add(new JLabel("Sentido:"));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        formPanel.add(new JLabel("Sentido:"), gbc);
+        gbc.gridx = 1;
         sentidoComboBox = new JComboBox<>(new String[]{"Ascendente", "Descendente"});
-        panel.add(sentidoComboBox);
+        formPanel.add(sentidoComboBox, gbc);
+        row++;
 
-        panel.add(new JLabel("Tonelagem:"));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        formPanel.add(new JLabel("Tonelagem:"), gbc);
+        gbc.gridx = 1;
         tonelagemField = new JTextField();
-        panel.add(tonelagemField);
+        formPanel.add(tonelagemField, gbc);
+        row++;
 
-        panel.add(new JLabel("Comprimento:"));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        formPanel.add(new JLabel("Comprimento:"), gbc);
+        gbc.gridx = 1;
         comprimentoField = new JTextField();
-        panel.add(comprimentoField);
+        formPanel.add(comprimentoField, gbc);
+        row++;
 
-        panel.add(new JLabel("Largura:"));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        formPanel.add(new JLabel("Largura:"), gbc);
+        gbc.gridx = 1;
         larguraField = new JTextField();
-        panel.add(larguraField);
+        formPanel.add(larguraField, gbc);
+        row++;
 
-        panel.add(new JLabel("Número de Passageiros:"));
+        gbc.gridx = 0;
+        gbc.gridy = row;
+        formPanel.add(new JLabel("Número de Passageiros:"), gbc);
+        gbc.gridx = 1;
         passageirosField = new JTextField();
-        panel.add(passageirosField);
+        formPanel.add(passageirosField, gbc);
+
+        mainPanel.add(formPanel, BorderLayout.CENTER);
 
         JButton adicionarButton = createButton("Adicionar");
         adicionarButton.addActionListener(e -> adicionarEmbarcacao());
 
-        panel.add(adicionarButton);
-        frame.add(panel);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(BACKGROUND_COLOR);
+        buttonPanel.add(adicionarButton);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        frame.setContentPane(mainPanel);
         frame.setVisible(true);
     }
 
