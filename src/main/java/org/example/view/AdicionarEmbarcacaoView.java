@@ -117,7 +117,7 @@ public class AdicionarEmbarcacaoView {
                 filaController.adicionarEmbarcacao(embarcacao);
                 outputArea.append(">>> Embarcação adicionada à fila!\n");
                 outputArea.append(">>> O valor da taxa a ser pago por esta embarcação é: " + embarcacao.calcularTaxa() + "\n");
-                frame.dispose(); // Fecha a janela após adicionar
+                frame.dispose();
             } else {
                 outputArea.append(">>> Tipo de embarcação inválido!\n");
             }

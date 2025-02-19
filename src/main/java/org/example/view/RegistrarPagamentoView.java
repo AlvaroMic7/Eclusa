@@ -66,7 +66,7 @@ public class RegistrarPagamentoView {
 
                 if (resultadoPagamento.startsWith("Sucesso")) {
                     outputArea.append(">>> Pagamento efetuado para a embarcação " + codigo + "\n");
-                    frame.dispose(); // Fecha a janela após registrar o pagamento
+                    frame.dispose();
                 }
             }
         } catch (NumberFormatException ex) {
