@@ -64,11 +64,15 @@ public class RegistrarPagamentoView {
                 outputArea.append(">>> Embarcação não encontrada na fila ou já processada.\n");
             } else {
                 String resultadoPagamento = pagamentoController.registrarPagamento(barcoParaPagar, valor);
-                outputArea.append(">>> " + resultadoPagamento + "\n");
-
                 if (resultadoPagamento.startsWith("Sucesso")) {
                     outputArea.append(">>> Pagamento efetuado para a embarcação " + codigo + "\n");
-                    frame.dispose();
+                    if (pagamentoController.getTroco() > 0) {
+                        outputArea.append(">>> Pagamento registrado. Troco: " + pagamentoController.getTroco() + "\n");
+                    } else {
+                        outputArea.append(">>> Pagamento registrado sem troco.\n");
+                    }
+                } else {
+                    outputArea.append(">>> " + resultadoPagamento + "\n");
                 }
             }
         } catch (NumberFormatException ex) {

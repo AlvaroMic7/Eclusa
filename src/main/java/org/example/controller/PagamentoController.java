@@ -25,5 +25,5 @@ public class PagamentoController {
             return "Erro: Não foi possível registrar o pagamento.";
         }
     }
-
+    public double getTroco() { return pagamento.getTroco(); }
 }
