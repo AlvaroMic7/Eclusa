@@ -11,7 +11,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SistemaGestaoEclusaSwing {
+public class SistemaGestaoEclusaView {
     private Eclusa eclusa;
     private FilaDeEspera filaDeEspera;
     private Pagamento pagamento;
@@ -35,7 +35,7 @@ public class SistemaGestaoEclusaSwing {
     private static final Color BUTTON_TEXT_COLOR = Color.WHITE;
     private static final Color ACCENT_COLOR = new Color(49, 199, 178);
 
-    public SistemaGestaoEclusaSwing() {
+    public SistemaGestaoEclusaView() {
         eclusa = new Eclusa("Grande", 5000, 1000, 100, 10, 150, 20, this);
         filaDeEspera = new FilaDeEspera();
         pagamento = new Pagamento();
@@ -100,11 +100,11 @@ public class SistemaGestaoEclusaSwing {
         }));
 
         leftPanel.add(createButton("Adicionar Embarcação à Fila", e -> {
-            adicionarEmbarcacao();
+            new AdicionarEmbarcacaoView(filaController, outputArea);
         }));
 
         leftPanel.add(createButton("Registrar Pagamento de Embarcação", e -> {
-            registrarPagamento();
+            new RegistrarPagamentoView(pagamentoController, filaController, outputArea);
         }));
 
         leftPanel.add(createButton("Exibir Status da Eclusa", e -> {
@@ -182,117 +182,6 @@ public class SistemaGestaoEclusaSwing {
 
     private void limparTerminal() {
         outputArea.setText("");
-    }
-
-    private void adicionarEmbarcacao() {
-        JFrame adicionarFrame = new JFrame("Adicionar Embarcação");
-        adicionarFrame.setSize(400, 500);
-        adicionarFrame.setLocationRelativeTo(frame);
-        adicionarFrame.setLayout(new GridLayout(0, 2, 10, 10));
-
-        JPanel contentPanel = new JPanel(new GridLayout(0, 2, 10, 10));
-        contentPanel.setBackground(BACKGROUND_COLOR);
-        adicionarFrame.setContentPane(contentPanel);
-
-        JLabel tipoLabel = createLabel("Tipo de Embarcação:");
-        contentPanel.add(tipoLabel);
-        tipoEmbarcacaoComboBox = new JComboBox<>(new String[]{"Navio de Carga", "Navio de Passageiros", "Iate"});
-        contentPanel.add(tipoEmbarcacaoComboBox);
-
-        JLabel codigoLabel = createLabel("Código da Embarcação:");
-        contentPanel.add(codigoLabel);
-        codigoField = createTextField();
-        contentPanel.add(codigoField);
-
-        JLabel capitaoLabel = createLabel("Nome do Capitão:");
-        contentPanel.add(capitaoLabel);
-        capitaoField = createTextField();
-        contentPanel.add(capitaoField);
-
-        JLabel portoOrigemLabel = createLabel("Porto de Origem:");
-        contentPanel.add(portoOrigemLabel);
-        portoOrigemField = createTextField();
-        contentPanel.add(portoOrigemField);
-
-        JLabel portoDestinoLabel = createLabel("Porto de Destino:");
-        contentPanel.add(portoDestinoLabel);
-        portoDestinoField = createTextField();
-        contentPanel.add(portoDestinoField);
-
-        JLabel paisLabel = createLabel("País:");
-        contentPanel.add(paisLabel);
-        paisField = createTextField();
-        contentPanel.add(paisField);
-
-        JLabel sentidoLabel = createLabel("Sentido:");
-        contentPanel.add(sentidoLabel);
-        JComboBox<String> sentidoComboBox = new JComboBox<>(new String[]{"Ascendente", "Descendente"});
-        contentPanel.add(sentidoComboBox);
-
-        JLabel tonelagemLabel = createLabel("Tonelagem:");
-        contentPanel.add(tonelagemLabel);
-        tonelagemField = createTextField();
-        contentPanel.add(tonelagemField);
-
-        JLabel comprimentoLabel = createLabel("Comprimento:");
-        contentPanel.add(comprimentoLabel);
-        comprimentoField = createTextField();
-        contentPanel.add(comprimentoField);
-
-        JLabel larguraLabel = createLabel("Largura:");
-        contentPanel.add(larguraLabel);
-        larguraField = createTextField();
-        contentPanel.add(larguraField);
-
-        JLabel passageirosLabel = createLabel("Número de Passageiros:");
-        contentPanel.add(passageirosLabel);
-        passageirosField = createTextField();
-        contentPanel.add(passageirosField);
-
-        JButton adicionarButton = createButton("Adicionar", e -> {
-            try {
-                String tipo = (String) tipoEmbarcacaoComboBox.getSelectedItem();
-                String codigo = codigoField.getText();
-                String capitao = capitaoField.getText();
-                String portoOrigem = portoOrigemField.getText();
-                String portoDestino = portoDestinoField.getText();
-                String pais = paisField.getText();
-                String sentido = (String) sentidoComboBox.getSelectedItem();
-
-                Embarcacao embarcacao = null;
-                if (tipo.equals("Navio de Carga")) {
-                    double tonelagem = Double.parseDouble(tonelagemField.getText());
-                    double comprimento = Double.parseDouble(comprimentoField.getText());
-                    double largura = Double.parseDouble(larguraField.getText());
-                    embarcacao = new NavioCarga(codigo, capitao, portoOrigem, portoDestino, pais, sentido, tonelagem, comprimento, largura);
-                } else if (tipo.equals("Navio de Passageiros")) {
-                    int passageiros = Integer.parseInt(passageirosField.getText());
-                    double comprimento = Double.parseDouble(comprimentoField.getText());
-                    double largura = Double.parseDouble(larguraField.getText());
-                    embarcacao = new NavioPassageiros(codigo, capitao, portoOrigem, portoDestino, pais, sentido, passageiros, comprimento, largura);
-                } else if (tipo.equals("Iate")) {
-                    double comprimento = Double.parseDouble(comprimentoField.getText());
-                    double largura = Double.parseDouble(larguraField.getText());
-                    embarcacao = new Iate(codigo, capitao, portoOrigem, portoDestino, pais, sentido, comprimento, largura);
-                }
-
-                if (embarcacao != null) {
-                    filaController.adicionarEmbarcacao(embarcacao);
-                    outputArea.append(">>> Embarcação adicionada à fila!\n");
-                    outputArea.append(">>> O valor da taxa a ser pago por esta embarcação é:" + embarcacao.calcularTaxa() + "\n");
-
-                    adicionarFrame.dispose();
-                } else {
-                    outputArea.append(">>> Tipo de embarcação inválido!\n");
-                }
-            } catch (NumberFormatException ex) {
-                outputArea.append(">>> Erro: Valor inválido para tonelagem, comprimento ou largura.\n");
-            }
-        });
-
-        contentPanel.add(adicionarButton);
-
-        adicionarFrame.setVisible(true);
     }
 
     private void registrarPagamento() {
@@ -422,7 +311,7 @@ public class SistemaGestaoEclusaSwing {
     }
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new SistemaGestaoEclusaSwing());
+        SwingUtilities.invokeLater(() -> new SistemaGestaoEclusaView());
     }
 
     public void MostrarRegistroEvento(String evento) {

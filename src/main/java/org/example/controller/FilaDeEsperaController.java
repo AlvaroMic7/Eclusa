@@ -40,4 +40,5 @@ public class FilaDeEsperaController {
     public List<Embarcacao> getListaEmbarcacoes() {
         return filaDeEspera.getListaEmbarcacoes();
     }
+
 }

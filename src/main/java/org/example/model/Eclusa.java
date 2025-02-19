@@ -1,7 +1,7 @@
 package org.example.model;
 
 import org.example.controller.FilaDeEsperaController;
-import org.example.view.SistemaGestaoEclusaSwing;
+import org.example.view.SistemaGestaoEclusaView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,9 +22,9 @@ public class Eclusa {
     private double comprimento;
     private double largura;
     private double tempoDecorrido;
-    private SistemaGestaoEclusaSwing sistemaGestaoEclusaSwing;
+    private SistemaGestaoEclusaView sistemaGestaoEclusaView;
 
-    public Eclusa(String tamanho, double capacidadeMaxima, double capacidadeMinima, double vazao, int tempoOperacao, double comprimento, double largura, SistemaGestaoEclusaSwing sistemaGestaoEclusaSwing) {
+    public Eclusa(String tamanho, double capacidadeMaxima, double capacidadeMinima, double vazao, int tempoOperacao, double comprimento, double largura, SistemaGestaoEclusaView sistemaGestaoEclusaView) {
         this.tamanho = tamanho;
         this.capacidadeMaxima = capacidadeMaxima;
         this.capacidadeMinima = capacidadeMinima;
@@ -40,7 +40,7 @@ public class Eclusa {
         this.comprimento = comprimento;
         this.largura = largura;
         this.tempoDecorrido = 0;
-        this.sistemaGestaoEclusaSwing = sistemaGestaoEclusaSwing;
+        this.sistemaGestaoEclusaView = sistemaGestaoEclusaView;
     }
 
     public double calcularTempoEnchimento() {
@@ -61,25 +61,25 @@ public class Eclusa {
         double tempo;
         if (operacao.equalsIgnoreCase("encher")) {
             tempo = calcularTempoEnchimento();
-            sistemaGestaoEclusaSwing.MostrarRegistroEvento(">>> Tempo estimado para encher a eclusa: " + tempo + " minutos.");
+            sistemaGestaoEclusaView.MostrarRegistroEvento(">>> Tempo estimado para encher a eclusa: " + tempo + " minutos.");
         } else if (operacao.equalsIgnoreCase("esvaziar")) {
             tempo = calcularTempoEsvaziamento();
-            sistemaGestaoEclusaSwing.MostrarRegistroEvento(">>> Tempo estimado para esvaziar a eclusa: " + tempo + " minutos.");
+            sistemaGestaoEclusaView.MostrarRegistroEvento(">>> Tempo estimado para esvaziar a eclusa: " + tempo + " minutos.");
         } else {
-            sistemaGestaoEclusaSwing.MostrarRegistroEvento("!!! Operação inválida.");
+            sistemaGestaoEclusaView.MostrarRegistroEvento("!!! Operação inválida.");
         }
     }
 
     public void iniciarOperacao() {
         this.status = "Em operação";
         this.porcentagemOperacao = 100.0;
-        sistemaGestaoEclusaSwing.MostrarRegistroEvento("Eclusa iniciada.");
+        sistemaGestaoEclusaView.MostrarRegistroEvento("Eclusa iniciada.");
         registro.registrarEvento("Eclusa iniciada.");
     }
 
     public void operarEclusa(List<Embarcacao> embarcacoes, FilaDeEsperaController filaController) {
         if (!this.status.equalsIgnoreCase("Em operação")) {
-            sistemaGestaoEclusaSwing.MostrarRegistroEvento("!!! A eclusa não está em operação. Operação cancelada.");
+            sistemaGestaoEclusaView.MostrarRegistroEvento("!!! A eclusa não está em operação. Operação cancelada.");
             registro.registrarEvento("Tentativa de operação com eclusa parada.");
 
             for (Embarcacao embarcacao : embarcacoes) {
@@ -89,14 +89,14 @@ public class Eclusa {
         }
 
         if (embarcacoes.isEmpty()) {
-            sistemaGestaoEclusaSwing.MostrarRegistroEvento(">>> Nenhuma embarcação para processar.");
+            sistemaGestaoEclusaView.MostrarRegistroEvento(">>> Nenhuma embarcação para processar.");
             return;
         }
 
         String sentidoPrimeiraEmbarcacao = embarcacoes.get(0).getSentido();
         for (int i = 1; i < embarcacoes.size(); i++) {
             if (!embarcacoes.get(i).getSentido().equalsIgnoreCase(sentidoPrimeiraEmbarcacao)) {
-                sistemaGestaoEclusaSwing.MostrarRegistroEvento(">>> Embarcações com sentidos diferentes detectadas. Processando apenas a primeira embarcação.");
+                sistemaGestaoEclusaView.MostrarRegistroEvento(">>> Embarcações com sentidos diferentes detectadas. Processando apenas a primeira embarcação.");
                 registro.registrarEvento("Embarcações com sentidos diferentes detectadas. Processando apenas a primeira embarcação.");
 
                 for (int j = 1; j < embarcacoes.size(); j++) {
@@ -120,13 +120,13 @@ public class Eclusa {
     private void processarEmbarcacoes(List<Embarcacao> embarcacoes, FilaDeEsperaController filaController) {
         for (Embarcacao embarcacao : embarcacoes) {
             if (!embarcacao.isPago()) {
-                sistemaGestaoEclusaSwing.MostrarRegistroEvento("!!! Embarcação " + embarcacao.getCodigoIdentificacao() + " não efetuou o pagamento. Operação cancelada.");
+                sistemaGestaoEclusaView.MostrarRegistroEvento("!!! Embarcação " + embarcacao.getCodigoIdentificacao() + " não efetuou o pagamento. Operação cancelada.");
                 registro.registrarEvento("Pagamento não efetuado para embarcação " + embarcacao.getCodigoIdentificacao());
 
                 for (Embarcacao e : embarcacoes) {
                     filaController.adicionarEmbarcacao(e);
                 }
-                sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Todas as embarcações devolvidas à fila de espera.");
+                sistemaGestaoEclusaView.MostrarRegistroEvento(" Todas as embarcações devolvidas à fila de espera.");
                 return;
             }
         }
@@ -141,7 +141,7 @@ public class Eclusa {
         } else if (sentido.equalsIgnoreCase("descendente")) {
             operarSentidoDescendente(embarcacoes);
         } else {
-            sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Sentido inválido. Operação cancelada.");
+            sistemaGestaoEclusaView.MostrarRegistroEvento(" Sentido inválido. Operação cancelada.");
             registro.registrarEvento("Sentido inválido para embarcações.");
             return;
         }
@@ -149,26 +149,26 @@ public class Eclusa {
 
     private void ajustarNivelAgua(String sentido) {
         if (sentido.equalsIgnoreCase("ascendente")) {
-            sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Ajustando nível da água: Esvaziando a eclusa.");
+            sistemaGestaoEclusaView.MostrarRegistroEvento(" Ajustando nível da água: Esvaziando a eclusa.");
             nivelAlto = false;
             registro.registrarEvento("Eclusa esvaziando para nível baixo.");
         } else if (sentido.equalsIgnoreCase("descendente")) {
-            sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Ajustando nível da água: Enchendo a eclusa.");
+            sistemaGestaoEclusaView.MostrarRegistroEvento(" Ajustando nível da água: Enchendo a eclusa.");
             nivelAlto = true;
             registro.registrarEvento("Eclusa enchendo para nível alto.");
         }
     }
 
     private void operarSentidoAscendente(List<Embarcacao> embarcacoes) {
-        sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Iniciando operação para embarcações (sentido ascendente).");
+        sistemaGestaoEclusaView.MostrarRegistroEvento(" Iniciando operação para embarcações (sentido ascendente).");
         comportaJusante.abrir();
-        sistemaGestaoEclusaSwing.MostrarRegistroEvento("Comporta jusante aberta. Embarcações liberadas.");
+        sistemaGestaoEclusaView.MostrarRegistroEvento("Comporta jusante aberta. Embarcações liberadas.");
         comportaJusante.fechar();
-        sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Comporta Jusante fechada.");
+        sistemaGestaoEclusaView.MostrarRegistroEvento(" Comporta Jusante fechada.");
         registro.registrarEvento("Comporta jusante fechada.");
 
         double tempoTotal = 4.0;
-        sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Tempo estimado para encher a eclusa: " + tempoTotal + " segundos.");
+        sistemaGestaoEclusaView.MostrarRegistroEvento(" Tempo estimado para encher a eclusa: " + tempoTotal + " segundos.");
 
         tempoDecorrido = 0;
         while (tempoDecorrido < tempoTotal) {
@@ -178,33 +178,33 @@ public class Eclusa {
                 int progresso = (int) ((tempoDecorrido / tempoTotal) * 100);
                 atualizarProgresso(progresso);
             } catch (InterruptedException e) {
-                sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Operação interrompida.");
+                sistemaGestaoEclusaView.MostrarRegistroEvento(" Operação interrompida.");
                 return;
             }
         }
 
-        sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Ajustando nível da água: Enchendo a eclusa.");
+        sistemaGestaoEclusaView.MostrarRegistroEvento(" Ajustando nível da água: Enchendo a eclusa.");
         registro.registrarEvento("Eclusa enchendo para nível alto.");
         nivelAlto = true;
-        sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Eclusa cheia. Elevando as embarcações.");
+        sistemaGestaoEclusaView.MostrarRegistroEvento(" Eclusa cheia. Elevando as embarcações.");
 
         comportaMontante.abrir();
-        sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Comporta Montante aberta. Embarcações liberadas.");
+        sistemaGestaoEclusaView.MostrarRegistroEvento(" Comporta Montante aberta. Embarcações liberadas.");
         registro.registrarEvento("Comporta montante aberta. Embarcações liberadas.");
 
         atualizarProgresso(0);
     }
 
     private void operarSentidoDescendente(List<Embarcacao> embarcacoes) {
-        sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Iniciando operação para embarcações (sentido descendente).");
+        sistemaGestaoEclusaView.MostrarRegistroEvento(" Iniciando operação para embarcações (sentido descendente).");
         comportaMontante.abrir();
-        sistemaGestaoEclusaSwing.MostrarRegistroEvento("Comporta montante aberta. Embarcações liberadas.");
+        sistemaGestaoEclusaView.MostrarRegistroEvento("Comporta montante aberta. Embarcações liberadas.");
         comportaMontante.fechar();
-        sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Comporta montante fechada.");
+        sistemaGestaoEclusaView.MostrarRegistroEvento(" Comporta montante fechada.");
         registro.registrarEvento("Comporta montante fechada.");
 
         double tempoTotal = 4.0;
-        sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Tempo estimado para esvaziar a eclusa: " + tempoTotal + " segundos.");
+        sistemaGestaoEclusaView.MostrarRegistroEvento(" Tempo estimado para esvaziar a eclusa: " + tempoTotal + " segundos.");
 
         tempoDecorrido = 0;
         while (tempoDecorrido < tempoTotal) {
@@ -214,17 +214,17 @@ public class Eclusa {
                 int progresso = (int) ((tempoDecorrido / tempoTotal) * 100);
                 atualizarProgresso(progresso);
             } catch (InterruptedException e) {
-                sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Operação interrompida.");
+                sistemaGestaoEclusaView.MostrarRegistroEvento(" Operação interrompida.");
                 return;
             }
         }
 
-        sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Eclusa vazia. Baixando as embarcações.");
+        sistemaGestaoEclusaView.MostrarRegistroEvento(" Eclusa vazia. Baixando as embarcações.");
         nivelAlto = false;
         registro.registrarEvento("Eclusa esvaziando para nível baixo.");
 
         comportaJusante.abrir();
-        sistemaGestaoEclusaSwing.MostrarRegistroEvento("Comporta jusante aberta. Embarcações liberadas.");
+        sistemaGestaoEclusaView.MostrarRegistroEvento("Comporta jusante aberta. Embarcações liberadas.");
 
         registro.registrarEvento("Comporta jusante aberta. Embarcações liberadas.");
 
@@ -246,8 +246,8 @@ public class Eclusa {
     }
 
     private void realizarManutencaoAgua() {
-        sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Realizando manutenção de água da eclusa...");
-        sistemaGestaoEclusaSwing.MostrarRegistroEvento(" Manutenção de água realizada.");
+        sistemaGestaoEclusaView.MostrarRegistroEvento(" Realizando manutenção de água da eclusa...");
+        sistemaGestaoEclusaView.MostrarRegistroEvento(" Manutenção de água realizada.");
         registro.registrarEvento("Manutenção de água realizada.");
     }
 
