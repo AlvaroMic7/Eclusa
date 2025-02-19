@@ -232,37 +232,41 @@ public class SistemaGestaoEclusaView {
     }
 
     private void processarEmbarcacoes() {
-        List<Embarcacao> embarcacoesParaProcessar = new ArrayList<>();
-        Embarcacao prox = filaController.obterProximaEmbarcacao();
-        while (prox != null) {
-            if (prox.isPago()) {
-                embarcacoesParaProcessar.add(prox);
-                if (!eclusaController.getEclusa().podeAcomodarEmbarcacoes(embarcacoesParaProcessar)) {
-                    embarcacoesParaProcessar.remove(embarcacoesParaProcessar.size() - 1);
-                    outputArea.append(">>> Embarcação " + prox.getCodigoIdentificacao() + " não cabe na eclusa. Devolvida à fila.\n");
-                    filaController.adicionarEmbarcacao(prox);
-                    break;
-                }
-            } else {
-                outputArea.append(">>> Embarcação " + prox.getCodigoIdentificacao() + " não foi paga. Ignorada.\n");
-            }
-            prox = filaController.obterProximaEmbarcacao();
-        }
-
-        if (!embarcacoesParaProcessar.isEmpty()) {
-            eclusaController.operarEclusa(embarcacoesParaProcessar, filaController);
-            new Thread(() -> {
-                for (int i = 0; i <= 100; i++) {
-                    atualizarProgresso(i);
-                    try {
-                        Thread.sleep(50);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+        if(eclusaController.getOperacaoIniciada()) {
+            List<Embarcacao> embarcacoesParaProcessar = new ArrayList<>();
+            Embarcacao prox = filaController.obterProximaEmbarcacao();
+            while (prox != null) {
+                if (prox.isPago()) {
+                    embarcacoesParaProcessar.add(prox);
+                    if (!eclusaController.getEclusa().podeAcomodarEmbarcacoes(embarcacoesParaProcessar)) {
+                        embarcacoesParaProcessar.remove(embarcacoesParaProcessar.size() - 1);
+                        outputArea.append(">>> Embarcação " + prox.getCodigoIdentificacao() + " não cabe na eclusa. Devolvida à fila.\n");
+                        filaController.adicionarEmbarcacao(prox);
+                        break;
                     }
+                } else {
+                    outputArea.append(">>> Embarcação " + prox.getCodigoIdentificacao() + " não foi paga. Ignorada.\n");
                 }
-            }).start();
-        } else {
-            outputArea.append(">>> Nenhuma embarcação na fila ou não há espaço na eclusa!\n");
+                prox = filaController.obterProximaEmbarcacao();
+            }
+
+            if (!embarcacoesParaProcessar.isEmpty()) {
+                eclusaController.operarEclusa(embarcacoesParaProcessar, filaController);
+                new Thread(() -> {
+                    for (int i = 0; i <= 100; i++) {
+                        atualizarProgresso(i);
+                        try {
+                            Thread.sleep(50);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }).start();
+            } else {
+                outputArea.append(">>> Nenhuma embarcação na fila ou não há espaço na eclusa!\n");
+            }
+        }else{
+            outputArea.append(">>> A eclusa não foi iniciada!\n");
         }
     }
 

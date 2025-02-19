@@ -23,6 +23,7 @@ public class Eclusa {
     private double largura;
     private double tempoDecorrido;
     private SistemaGestaoEclusaView sistemaGestaoEclusaView;
+    private boolean operacaoIniciada = false;
 
     public Eclusa(String tamanho, double capacidadeMaxima, double capacidadeMinima, double vazao, int tempoOperacao, double comprimento, double largura, SistemaGestaoEclusaView sistemaGestaoEclusaView) {
         this.tamanho = tamanho;
@@ -75,9 +76,15 @@ public class Eclusa {
         this.porcentagemOperacao = 100.0;
         sistemaGestaoEclusaView.MostrarRegistroEvento("Eclusa iniciada.");
         registro.registrarEvento("Eclusa iniciada.");
+        operacaoIniciada = true;
+    }
+
+    public boolean isOperacaoIniciada() {
+        return operacaoIniciada;
     }
 
     public void operarEclusa(List<Embarcacao> embarcacoes, FilaDeEsperaController filaController) {
+
         if (!this.status.equalsIgnoreCase("Em operação")) {
             sistemaGestaoEclusaView.MostrarRegistroEvento("!!! A eclusa não está em operação. Operação cancelada.");
             registro.registrarEvento("Tentativa de operação com eclusa parada.");
@@ -109,6 +116,7 @@ public class Eclusa {
         }
 
         processarEmbarcacoes(embarcacoes, filaController);
+
     }
 
     private void processarEmbarcacao(Embarcacao embarcacao, FilaDeEsperaController filaController) {

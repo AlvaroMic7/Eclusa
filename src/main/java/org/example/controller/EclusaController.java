@@ -37,4 +37,6 @@ public class EclusaController {
     public String exibirEventos() {
         return eclusa.exibirEventos();
     }
+
+    public boolean getOperacaoIniciada() { return eclusa.isOperacaoIniciada(); }
 }
