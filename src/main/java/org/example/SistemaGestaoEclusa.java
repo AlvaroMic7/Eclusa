@@ -1,15 +1,12 @@
 package org.example;
 
-import org.example.Eclusa;
-import org.example.Embarcacao;
-import org.example.FilaDeEspera;
-import org.example.Pagamento;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import org.example.controller.EclusaController;
+import org.example.controller.FilaDeEsperaController;
+import org.example.controller.PagamentoController;
+import org.example.model.Eclusa;
+import org.example.model.FilaDeEspera;
+import org.example.model.Pagamento;
+import org.example.view.SistemaGestaoEclusaSwing;
 
 public class SistemaGestaoEclusa {
     public static void main(String[] args) {

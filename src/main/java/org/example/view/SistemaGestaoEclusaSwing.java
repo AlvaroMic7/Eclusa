@@ -1,4 +1,9 @@
-package org.example;
+package org.example.view;
+
+import org.example.controller.EclusaController;
+import org.example.controller.FilaDeEsperaController;
+import org.example.controller.PagamentoController;
+import org.example.model.*;
 
 import javax.swing.*;
 import java.awt.*;

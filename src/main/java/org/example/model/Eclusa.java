@@ -1,4 +1,7 @@
-package org.example;
+package org.example.model;
+
+import org.example.controller.FilaDeEsperaController;
+import org.example.view.SistemaGestaoEclusaSwing;
 
 import java.util.ArrayList;
 import java.util.List;

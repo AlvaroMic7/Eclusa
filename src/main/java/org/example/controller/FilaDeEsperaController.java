@@ -1,4 +1,8 @@
-package org.example;
+package org.example.controller;
+
+import org.example.model.Eclusa;
+import org.example.model.Embarcacao;
+import org.example.model.FilaDeEspera;
 
 import java.util.List;
 

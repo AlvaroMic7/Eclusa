@@ -1,12 +1,14 @@
-package org.example;
+package org.example.model;
 
-public class Iate extends Embarcacao {
+public class NavioPassageiros extends Embarcacao {
+    private int numeroPassageiros;
     private double comprimento;
     private double largura;
 
 
-    public Iate(String codigo, String capitao, String origem, String destino, String pais, String sentido, double comprimento, double largura) {
+    public NavioPassageiros(String codigo, String capitao, String origem, String destino, String pais, String sentido, int numeroPassageiros, double comprimento, double largura) {
         super(codigo, capitao, origem, destino, pais, sentido);
+        this.numeroPassageiros = numeroPassageiros;
         this.comprimento = comprimento;
         this.largura = largura;
     }
@@ -14,7 +16,7 @@ public class Iate extends Embarcacao {
 
     @Override
     public double calcularTaxa() {
-        return 1500 + (comprimento * 10);
+        return 1000 + (numeroPassageiros * 5);
     }
 
 

@@ -1,4 +1,7 @@
-package org.example;
+package org.example.controller;
+
+import org.example.model.Embarcacao;
+import org.example.model.Pagamento;
 
 public class PagamentoController {
     private Pagamento pagamento;

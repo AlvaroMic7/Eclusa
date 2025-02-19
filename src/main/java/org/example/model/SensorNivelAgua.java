@@ -1,4 +1,4 @@
-package org.example;
+package org.example.model;
 
 public class SensorNivelAgua {
     public boolean verificarNivelAdequado(String sentido, boolean nivelAlto) {
