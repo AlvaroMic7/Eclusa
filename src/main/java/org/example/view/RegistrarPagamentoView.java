@@ -3,12 +3,9 @@ package org.example.view;
 import org.example.controller.FilaDeEsperaController;
 import org.example.controller.PagamentoController;
 import org.example.model.Embarcacao;
-import org.example.model.Pagamento;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class RegistrarPagamentoView {
     private JFrame frame;
@@ -22,33 +19,42 @@ public class RegistrarPagamentoView {
         this.filaController = filaController;
         this.outputArea = outputArea;
 
+        // Configura o frame
         frame = new JFrame("Registrar Pagamento");
-        frame.setSize(300, 200);
+        frame.setSize(350, 200);
         frame.setLocationRelativeTo(null);
-        frame.setLayout(new GridLayout(0, 2, 10, 10));
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        JPanel panel = new JPanel(new GridLayout(0, 2, 10, 10));
-        panel.setBackground(new Color(38, 42, 54));
+        // Painel principal com BorderLayout e margem
+        JPanel mainPanel = new JPanel(new BorderLayout(10, 10));
+        mainPanel.setBackground(new Color(38, 42, 54));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        panel.add(createLabel("Código da Embarcação:"));
+        // Painel de formulário com GridLayout para os labels e campos de texto
+        JPanel formPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        formPanel.setBackground(new Color(38, 42, 54));
+
+        formPanel.add(createLabel("Código da Embarcação:"));
         codigoPagamentoField = createTextField();
-        panel.add(codigoPagamentoField);
+        formPanel.add(codigoPagamentoField);
 
-        panel.add(createLabel("Valor do Pagamento:"));
+        formPanel.add(createLabel("Valor do Pagamento:"));
         valorPagamentoField = createTextField();
-        panel.add(valorPagamentoField);
+        formPanel.add(valorPagamentoField);
 
+        mainPanel.add(formPanel, BorderLayout.CENTER);
+
+        // Painel para o botão, centralizando-o
         JButton pagarButton = createButton("Pagar");
         pagarButton.addActionListener(e -> registrarPagamento());
-        pagarButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                registrarPagamento();
-            }
-        });
 
-        panel.add(pagarButton);
-        frame.add(panel);
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setBackground(new Color(38, 42, 54));
+        buttonPanel.add(pagarButton);
+
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        frame.setContentPane(mainPanel);
         frame.setVisible(true);
     }
 
@@ -57,7 +63,7 @@ public class RegistrarPagamentoView {
             String codigo = codigoPagamentoField.getText();
             double valor = Double.parseDouble(valorPagamentoField.getText());
 
-            Embarcacao barcoParaPagar = filaController.buscarEmbarcacao(codigo);
+            var barcoParaPagar = filaController.buscarEmbarcacao(codigo);
             if (barcoParaPagar == null) {
                 outputArea.append(">>> Embarcação não encontrada na fila ou já processada.\n");
             } else {
@@ -86,6 +92,7 @@ public class RegistrarPagamentoView {
         field.setForeground(Color.WHITE);
         return field;
     }
+
     private JButton createButton(String text) {
         JButton button = new JButton(text);
         button.setBackground(new Color(54, 59, 73));
